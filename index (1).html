@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smile Source | Dental Supply Wholesale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Karla:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --teal:     #0891b2;
+      --teal-dk:  #0e7490;
+      --teal-lt:  #22d3ee;
+      --teal-bg:  #ecfeff;
+      --navy:     #0c1a2e;
+      --white:    #ffffff;
+      --off:      #f8fafc;
+      --border:   #e2e8f0;
+      --muted:    #64748b;
+      --text:     #0f172a;
+      --red:      #ef4444;
+      --red-lt:   #fee2e2;
+      --green:    #10b981;
+      --green-lt: #d1fae5;
+      --amber:    #f59e0b;
+      --amber-lt: #fef3c7;
+      --shadow:   0 4px 24px rgba(8,145,178,0.10);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Karla', sans-serif;
+      background: var(--off);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--navy);
+      color: rgba(255,255,255,0.6);
+      font-size: 0.76rem;
+      letter-spacing: 0.05em;
+      padding: 7px 32px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .topbar a { color: var(--teal-lt); text-decoration: none; }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      height: 68px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dk));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .logo-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1;
+    }
+    .logo-tag {
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .nav-link {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 7px 14px;
+      border-radius: 7px;
+      transition: all 0.18s;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--teal); background: var(--teal-bg); }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      transition: all 0.18s;
+    }
+    .admin-toggle.on {
+      color: var(--amber);
+      border-color: var(--amber);
+      background: var(--amber-lt);
+    }
+    .toggle-dot {
+      width: 28px; height: 16px;
+      background: var(--border);
+      border-radius: 100px;
+      position: relative;
+      transition: background 0.2s;
+    }
+    .toggle-dot::after {
+      content: '';
+      position: absolute;
+      width: 12px; height: 12px;
+      background: white;
+      border-radius: 50%;
+      top: 2px; left: 2px;
+      transition: transform 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .admin-toggle.on .toggle-dot { background: var(--amber); }
+    .admin-toggle.on .toggle-dot::after { transform: translateX(12px); }
+
+    .cart-btn {
+      position: relative;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 18px;
+      font-family: 'Karla', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.18s;
+    }
+    .cart-btn:hover { background: var(--teal-dk); transform: translateY(-1px); }
+    .cart-count {
+      background: white;
+      color: var(--teal);
+      font-size: 0.7rem;
+      font-weight: 800;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── PAGE SECTIONS ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── HERO BANNER (Products page) ── */
+    .products-hero {
+      background: linear-gradient(120deg, var(--navy) 0%, #0e2d4f 60%, #0c3d56 100%);
+      padding: 52px 32px 44px;
+      position: relative;
+      overflow: hidden;
+    }
+    .products-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 80% 50%, rgba(34,211,238,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; }
+    .hero-content h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      color: white;
+      margin-bottom: 10px;
+    }
+    .hero-content h1 span { color: var(--teal-lt); }
+    .hero-content p { color: rgba(255,255,255,0.65); font-size: 1rem; margin-bottom: 24px; }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .hero-stat { text-align: left; }
+    .hero-stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--teal-lt);
+      line-height: 1;
+    }
+    .hero-stat-lbl {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 68px;
+      z-index: 100;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 9px 14px 9px 36px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Karla', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      background: var(--off);
+      transition: border-color 0.18s;
+      color: var(--text);
+    }
+    .search-box input:focus { border-color: var(--teal); background: white; }
+    .search-icon {
+      position: absolute;
+      left: 11px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .filter-tab {
+      padding: 7px 14px;
+      border-radius: 7px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--muted);
+      transition: all 0.18s;
+    }
+    .filter-tab:hover { border-color: var(--teal); color: var(--teal); }
+    .filter-tab.active { background: var(--teal); color: white; border-color: var(--teal); }
+
+    .add-product-btn {
+      background: linear-gradient(135deg, var(--green), #059669);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 18px;
+      font-family: 'Karla', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.18s;
+      white-space: nowrap;
+    }
+    .add-product-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+
+    /* ── PRODUCT GRID ── */
+    .products-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 28px 32px;
+    }
+
+    .results-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+    .results-bar strong { color: var(--text); }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: all 0.22s;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-3px);
+      border-color: rgba(8,145,178,0.3);
+    }
+
+    .product-thumb {
+      height: 120px;
+      background: linear-gradient(135deg, var(--teal-bg), #cffafe);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      position: relative;
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 0.66rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .badge-low { background: var(--amber-lt); color: #92400e; }
+    .badge-out { background: var(--red-lt); color: #991b1b; }
+    .badge-new { background: var(--green-lt); color: #065f46; }
+
+    .product-body {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-cat {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 5px;
+    }
+
+    .product-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .product-sku {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .product-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 12px;
+      flex: 1;
+    }
+
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .product-price {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--teal-dk);
+    }
+    .product-price-unit { font-size: 0.72rem; color: var(--muted); font-weight: 400; font-family: 'Karla', sans-serif; }
+
+    .product-stock {
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 5px;
+    }
+    .stock-ok { background: var(--green-lt); color: #065f46; }
+    .stock-low { background: var(--amber-lt); color: #92400e; }
+    .stock-out { background: var(--red-lt); color: #991b1b; }
+
+    .product-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-buy {
+      flex: 1;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-family: 'Karla', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+    }
+    .btn-buy:hover { background: var(--teal-dk); }
+    .btn-buy:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+
+    .btn-sell {
+      flex: 1;
+      background: var(--white);
+      color: var(--green);
+      border: 1.5px solid var(--green);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-family: 'Karla', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+    }
+    .btn-sell:hover { background: var(--green-lt); }
+
+    .btn-remove {
+      background: var(--white);
+      color: var(--red);
+      border: 1.5px solid var(--red);
+      border-radius: 8px;
+      padding: 9px 11px;
+      font-family: 'Karla', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .btn-remove:hover { background: var(--red-lt); }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center;
+      padding: 72px 32px;
+      color: var(--muted);
+    }
+    .empty-state div { font-size: 3rem; margin-bottom: 16px; }
+    .empty-state h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; color: var(--navy); margin-bottom: 8px; }
+
+    /* ── MODAL OVERLAY ── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(12,26,46,0.55);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .overlay.open { display: flex; }
+
+    .modal {
+      background: var(--white);
+      border-radius: 18px;
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.2);
+      animation: slideUp 0.22s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-header {
+      padding: 24px 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .modal-header h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+    .modal-close {
+      background: var(--off);
+      border: none;
+      border-radius: 7px;
+      width: 30px; height: 30px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      color: var(--muted);
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    .modal-close:hover { background: var(--red-lt); color: var(--red); }
+
+    .modal-body { padding: 20px 28px 28px; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 14px;
+    }
+    .form-group.full { grid-column: 1/-1; }
+    .form-group label {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Karla', sans-serif;
+      font-size: 0.92rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.18s;
+      background: var(--white);
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--teal); }
+    .form-group textarea { resize: vertical; min-height: 72px; }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dk));
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 13px;
+      font-family: 'Karla', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: all 0.18s;
+    }
+    .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(8,145,178,0.3); }
+
+    /* ── CART DRAWER ── */
+    .cart-drawer {
+      position: fixed;
+      top: 0; right: 0;
+      width: 380px;
+      height: 100vh;
+      background: var(--white);
+      box-shadow: -8px 0 40px rgba(0,0,0,0.15);
+      z-index: 600;
+      transform: translateX(100%);
+      transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+      display: flex;
+      flex-direction: column;
+    }
+    .cart-drawer.open { transform: translateX(0); }
+
+    .cart-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cart-header h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .cart-items { flex: 1; overflow-y: auto; padding: 16px 24px; }
+
+    .cart-item {
+      display: flex;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+    }
+    .cart-item-icon {
+      width: 44px; height: 44px;
+      background: var(--teal-bg);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .cart-item-info { flex: 1; min-width: 0; }
+    .cart-item-name {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--navy);
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cart-item-price { font-size: 0.82rem; color: var(--teal); font-weight: 600; }
+
+    .cart-qty {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .qty-btn {
+      width: 26px; height: 26px;
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      transition: all 0.15s;
+    }
+    .qty-btn:hover { background: var(--teal-bg); border-color: var(--teal); }
+    .qty-num {
+      font-weight: 700;
+      font-size: 0.9rem;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .cart-empty {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--muted);
+    }
+    .cart-empty div { font-size: 2.5rem; margin-bottom: 12px; }
+
+    .cart-footer {
+      padding: 20px 24px;
+      border-top: 1px solid var(--border);
+    }
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+    .cart-total span:last-child {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem;
+      color: var(--teal-dk);
+    }
+    .btn-checkout {
+      width: 100%;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: 'Karla', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      margin-bottom: 8px;
+    }
+    .btn-checkout:hover { background: var(--teal-dk); }
+    .btn-clear-cart {
+      width: 100%;
+      background: none;
+      color: var(--muted);
+      border: none;
+      font-family: 'Karla', sans-serif;
+      font-size: 0.84rem;
+      cursor: pointer;
+      padding: 6px;
+    }
+    .btn-clear-cart:hover { color: var(--red); }
+
+    /* ── SELL MODAL ── */
+    .sell-modal-qty {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 14px 0;
+    }
+
+    /* ── ABOUT PAGE ── */
+    .about-page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 60px 32px;
+    }
+    .about-page h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 18px;
+    }
+    .about-page p {
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 16px;
+      font-size: 1rem;
+    }
+
+    /* ── WHOLESALE PAGE ── */
+    .wholesale-page {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 60px 32px;
+    }
+    .wholesale-page h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .wholesale-page p.sub {
+      color: var(--muted);
+      margin-bottom: 32px;
+      font-size: 1rem;
+    }
+    .wform {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--navy);
+      color: white;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      z-index: 9999;
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+      white-space: nowrap;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.green { background: var(--green); }
+    .toast.red { background: var(--red); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      header { padding: 0 16px; }
+      .topbar { display: none; }
+      .toolbar { padding: 12px 16px; top: 68px; }
+      .products-container { padding: 20px 16px; }
+      .products-hero { padding: 36px 16px 28px; }
+      .hero-stats { gap: 20px; }
+      .cart-drawer { width: 100%; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <span>🇺🇸 Pennsylvania LLC &nbsp;·&nbsp; Wholesale Dental Supply</span>
+  <span>📞 <a href="#">(215) 555-0100</a> &nbsp;·&nbsp; ✉️ <a href="#">orders@smilesource.com</a></span>
+</div>
+
+<!-- HEADER -->
+<header>
+  <a class="logo" href="#" onclick="showPage('products')">
+    <div class="logo-mark">🦷</div>
+    <div>
+      <div class="logo-name">Smile Source</div>
+      <div class="logo-tag">Dental Supply &nbsp;·&nbsp; Wholesale</div>
+    </div>
+  </a>
+
+  <nav class="header-nav">
+    <button class="nav-link active" id="nav-products" onclick="showPage('products')">Products</button>
+    <button class="nav-link" id="nav-wholesale" onclick="showPage('wholesale')">Wholesale</button>
+    <button class="nav-link" id="nav-about" onclick="showPage('about')">About</button>
+  </nav>
+
+  <div class="header-actions">
+    <button class="admin-toggle" id="adminToggle" onclick="toggleAdmin()">
+      <div class="toggle-dot"></div>
+      <span id="adminLabel">Admin</span>
+    </button>
+    <button class="cart-btn" onclick="openCart()">
+      🛒 Cart <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- ════════════════════ PRODUCTS PAGE ════════════════════ -->
+<div class="page active" id="page-products">
+
+  <div class="products-hero">
+    <div class="hero-content">
+      <h1>Dental Supplies at <span>Wholesale Prices</span></h1>
+      <p>Real-time inventory · Bulk pricing · Fast shipping to your practice</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num" id="statTotal">0</div>
+          <div class="hero-stat-lbl">Products</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" id="statCategories">0</div>
+          <div class="hero-stat-lbl">Categories</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">48hr</div>
+          <div class="hero-stat-lbl">Avg Ship Time</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search products, SKUs, brands…" oninput="renderProducts()">
+    </div>
+    <div class="filter-tabs" id="filterTabs">
+      <button class="filter-tab active" onclick="setFilter('All', this)">All</button>
+    </div>
+    <button class="add-product-btn" id="addProductBtn" style="display:none" onclick="openAddModal()">
+      ＋ Add Product
+    </button>
+  </div>
+
+  <!-- GRID -->
+  <div class="products-container">
+    <div class="results-bar">
+      <span id="resultsLabel">Loading...</span>
+      <span style="font-size:0.78rem;">Prices shown per unit/case</span>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+</div>
+
+<!-- ════════════════════ WHOLESALE PAGE ════════════════════ -->
+<div class="page" id="page-wholesale">
+  <div class="wholesale-page">
+    <h1>Wholesale Account Application</h1>
+    <p class="sub">Apply to access bulk pricing, net terms, and exclusive distributor agreements. We respond within 1 business day.</p>
+    <div class="wform">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Business Name</label>
+          <input type="text" placeholder="Acme Dental Mfg Co.">
+        </div>
+        <div class="form-group">
+          <label>EIN / Tax ID</label>
+          <input type="text" placeholder="XX-XXXXXXX">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Business Email</label>
+          <input type="email" placeholder="contact@company.com">
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" placeholder="(555) 000-0000">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Business Type</label>
+          <select>
+            <option disabled selected>Select one…</option>
+            <option>Manufacturer</option>
+            <option>Importer / Exporter</option>
+            <option>Dental Practice</option>
+            <option>Lab / Clinic</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Monthly Volume</label>
+          <select>
+            <option disabled selected>Select range…</option>
+            <option>Under $5,000</option>
+            <option>$5,000 – $25,000</option>
+            <option>$25,000 – $100,000</option>
+            <option>$100,000+</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Products / Categories of Interest</label>
+        <textarea placeholder="Describe the dental products or categories you're looking to source or supply…"></textarea>
+      </div>
+      <button class="btn-submit" onclick="showToast('Application submitted! We\'ll be in touch within 1 business day.','green')">Submit Application →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ ABOUT PAGE ════════════════════ -->
+<div class="page" id="page-about">
+  <div class="about-page">
+    <h1>About Smile Source</h1>
+    <p>Smile Source Dental Supply LLC is a Pennsylvania-based wholesale distributor connecting dental clinics, specialty labs, and healthcare providers across the United States with premium dental products at competitive volume pricing.</p>
+    <p>We bridge certified manufacturers and importers with the dental professionals who depend on consistent, reliable supply chains. Our team brings direct industry experience to every partnership — from sourcing and compliance to logistics and customer support.</p>
+    <p><strong>For manufacturers and suppliers:</strong> We offer consistent purchase volumes, a growing customer network, and full compliance transparency including our LLC registration, EIN, and product liability documentation available on request.</p>
+    <div style="margin-top:32px; background: var(--teal-bg); border:1px solid rgba(8,145,178,0.2); border-radius:12px; padding:24px;">
+      <strong style="font-family:'Syne',sans-serif; color:var(--navy);">Contact Us</strong>
+      <p style="margin-top:10px; margin-bottom:0;">📧 orders@smilesource.com &nbsp;·&nbsp; 📞 (215) 555-0100 &nbsp;·&nbsp; 📍 Pennsylvania, USA</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ ADD PRODUCT MODAL ════════════════════ -->
+<div class="overlay" id="addOverlay" onclick="handleOverlayClick(event,'addOverlay')">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Add New Product</h2>
+      <button class="modal-close" onclick="closeModal('addOverlay')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Product Name *</label>
+          <input type="text" id="f-name" placeholder="CaviWipes XL">
+        </div>
+        <div class="form-group">
+          <label>Brand</label>
+          <input type="text" id="f-brand" placeholder="Metrex">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>SKU</label>
+          <input type="text" id="f-sku" placeholder="CW-XL-160">
+        </div>
+        <div class="form-group">
+          <label>Category *</label>
+          <select id="f-cat">
+            <option value="">Select…</option>
+            <option>Disinfection</option>
+            <option>Gloves & PPE</option>
+            <option>Instruments</option>
+            <option>Disposables</option>
+            <option>Sterilization</option>
+            <option>Prophylaxis</option>
+            <option>Barriers</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Price (USD) *</label>
+          <input type="number" id="f-price" placeholder="45.99" min="0" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>Unit Label</label>
+          <input type="text" id="f-unit" placeholder="/case of 160">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Stock Qty *</label>
+          <input type="number" id="f-stock" placeholder="250" min="0">
+        </div>
+        <div class="form-group">
+          <label>Emoji Icon</label>
+          <input type="text" id="f-emoji" placeholder="🧻" maxlength="4">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="f-desc" placeholder="Brief product description…"></textarea>
+      </div>
+      <button class="btn-submit" onclick="submitAddProduct()">Add to Catalog →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ SELL MODAL ════════════════════ -->
+<div class="overlay" id="sellOverlay" onclick="handleOverlayClick(event,'sellOverlay')">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="sellModalTitle">List Product for Sale</h2>
+      <button class="modal-close" onclick="closeModal('sellOverlay')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:0.9rem; color:var(--muted); margin-bottom:18px;" id="sellModalDesc"></p>
+      <div class="form-group">
+        <label>Quantity to List</label>
+        <input type="number" id="sellQtyInput" min="1" value="1" style="max-width:140px;">
+      </div>
+      <div class="form-group">
+        <label>Your Sell Price (USD)</label>
+        <input type="number" id="sellPriceInput" step="0.01" min="0" style="max-width:160px;">
+      </div>
+      <div class="form-group">
+        <label>Notes (optional)</label>
+        <textarea id="sellNotes" placeholder="Condition, expiry date, bulk deal notes…"></textarea>
+      </div>
+      <button class="btn-submit" style="background:linear-gradient(135deg,var(--green),#059669)" onclick="submitSell()">List for Sale →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ CART DRAWER ════════════════════ -->
+<div class="overlay" id="cartOverlayBg" onclick="closeCart()" style="background:rgba(0,0,0,0.3)"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h2>🛒 Your Order</h2>
+    <button class="modal-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>Order Total</span>
+      <span id="cartTotal">$0.00</span>
+    </div>
+    <button class="btn-checkout" onclick="checkout()">Place Order →</button>
+    <button class="btn-clear-cart" onclick="clearCart()">Clear cart</button>
+  </div>
+</div>
+
+<script>
+  // ══════════════════════════════════════════════
+  // DATA — DEFAULT PRODUCTS
+  // ══════════════════════════════════════════════
+  const DEFAULT_PRODUCTS = [
+    {
+      id: 1, name: "CaviWipes XL", brand: "Metrex", sku: "CW-XL-160",
+      category: "Disinfection", price: 45.99, unit: "/case of 160",
+      stock: 420, emoji: "🧻",
+      desc: "Disinfectant towelettes for hard, non-porous surfaces. EPA-registered, kills 99.9% of pathogens in 3 minutes."
+    },
+    {
+      id: 2, name: "CaviCide Surface Disinfectant", brand: "Metrex", sku: "CC-GAL-128",
+      category: "Disinfection", price: 28.50, unit: "/gallon",
+      stock: 180, emoji: "🧴",
+      desc: "Spray/wipe disinfectant solution. Intermediate-level, broad-spectrum efficacy. 3-minute contact time."
+    },
+    {
+      id: 3, name: "Nitrile Exam Gloves – Medium", brand: "SemperMed", sku: "NG-MED-100",
+      category: "Gloves & PPE", price: 19.99, unit: "/box of 100",
+      stock: 1200, emoji: "🧤",
+      desc: "Powder-free, textured fingertips. Latex-free, AQL 1.5. ASTM D6319 compliant."
+    },
+    {
+      id: 4, name: "Nitrile Exam Gloves – Large", brand: "SemperMed", sku: "NG-LRG-100",
+      category: "Gloves & PPE", price: 19.99, unit: "/box of 100",
+      stock: 950, emoji: "🧤",
+      desc: "Powder-free, textured fingertips. Latex-free, AQL 1.5. ASTM D6319 compliant."
+    },
+    {
+      id: 5, name: "ASTM Level 3 Surgical Masks", brand: "Halyard", sku: "HLY-L3-50",
+      category: "Gloves & PPE", price: 24.99, unit: "/box of 50",
+      stock: 800, emoji: "😷",
+      desc: "High fluid resistance, ASTM F2100 Level 3. Pleated design, ear-loop style. Ideal for aerosol-generating procedures."
+    },
+    {
+      id: 6, name: "Prophy Paste – Medium Grit", brand: "Young Innovations", sku: "PP-MED-200",
+      category: "Prophylaxis", price: 32.00, unit: "/box of 200 cups",
+      stock: 340, emoji: "🦷",
+      desc: "Mint flavor, medium grit. Single-use prophy cups included. Low splatter formula."
+    },
+    {
+      id: 7, name: "Prophy Angles – Soft Cup", brand: "Dentsply", sku: "PA-SOFT-144",
+      category: "Prophylaxis", price: 22.50, unit: "/bag of 144",
+      stock: 600, emoji: "🔩",
+      desc: "Snap-on, latex-free soft cup angles. Compatible with standard latch-type prophy handpieces."
+    },
+    {
+      id: 8, name: "Patient Bibs – Blue", brand: "Medicom", sku: "BIB-BLU-500",
+      category: "Disposables", price: 16.99, unit: "/case of 500",
+      stock: 75, emoji: "📋",
+      desc: "2-ply tissue/1-ply poly. Bib chain clip included. 13\" x 18\" standard size."
+    },
+    {
+      id: 9, name: "Saliva Ejectors – Clear", brand: "Dentsply", sku: "SE-CLR-100",
+      category: "Disposables", price: 9.99, unit: "/bag of 100",
+      stock: 2000, emoji: "💧",
+      desc: "Flexible, smooth tip. Universal fit. Individually wrapped for hygiene compliance."
+    },
+    {
+      id: 10, name: "Autoclave Sterilization Pouches", brand: "Crosstex", sku: "AP-3X10-200",
+      category: "Sterilization", price: 18.75, unit: "/box of 200",
+      stock: 520, emoji: "🔒",
+      desc: "Self-sealing, 3.5\" x 10\". Internal and external chemical indicators. Steam and EO compatible."
+    },
+    {
+      id: 11, name: "Surface Barrier Tape – Clear", brand: "Defend", sku: "SB-CLR-1200",
+      category: "Barriers", price: 12.50, unit: "/roll of 1200\"",
+      stock: 30, emoji: "📦",
+      desc: "1\" x 1200\" adhesive plastic film. Protects light handles, air/water syringes, and control panels."
+    },
+    {
+      id: 12, name: "Fluoride Varnish – Mint", brand: "Colgate", sku: "FV-MNT-100",
+      category: "Prophylaxis", price: 64.00, unit: "/box of 100 units",
+      stock: 0, emoji: "✨",
+      desc: "5% Sodium Fluoride. Single-dose unit dose. FDA approved for desensitization and caries prevention."
+    },
+    {
+      id: 13, name: "Disposable Patient Cups", brand: "Solo", sku: "DC-5OZ-1000",
+      category: "Disposables", price: 11.25, unit: "/case of 1000",
+      stock: 1800, emoji: "🥤",
+      desc: "5 oz paper rinse cups. Wax-coated, leak-resistant. Stackable dispenser compatible."
+    },
+    {
+      id: 14, name: "HVE Tips – Vented", brand: "Dentsply", sku: "HVE-VNT-100",
+      category: "Disposables", price: 14.00, unit: "/bag of 100",
+      stock: 700, emoji: "🌬️",
+      desc: "High-volume evacuator tips. Angled vented design for superior suction. Autoclavable or disposable use."
+    },
+    {
+      id: 15, name: "Impression Trays – Perforated Set", brand: "Dentsply", sku: "IT-PERF-SET",
+      category: "Instruments", price: 38.00, unit: "/set of 12",
+      stock: 90, emoji: "🦷",
+      desc: "Full metal perforated arch trays. XS–XL sizes. Autoclave safe, reusable. 316L stainless steel."
+    },
+  ];
+
+  // ══════════════════════════════════════════════
+  // STATE
+  // ══════════════════════════════════════════════
+  let products = loadProducts();
+  let cart     = loadCart();
+  let adminMode = false;
+  let activeFilter = 'All';
+  let sellTarget = null;
+
+  function loadProducts() {
+    try {
+      const saved = localStorage.getItem('ss_products');
+      return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+    } catch(e) { return JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)); }
+  }
+
+  function saveProducts() {
+    try { localStorage.setItem('ss_products', JSON.stringify(products)); } catch(e){}
+  }
+
+  function loadCart() {
+    try {
+      const saved = localStorage.getItem('ss_cart');
+      return saved ? JSON.parse(saved) : [];
+    } catch(e) { return []; }
+  }
+
+  function saveCart() {
+    try { localStorage.setItem('ss_cart', JSON.stringify(cart)); } catch(e){}
+  }
+
+  // ══════════════════════════════════════════════
+  // NAVIGATION
+  // ══════════════════════════════════════════════
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+    const nb = document.getElementById('nav-' + id);
+    if (nb) nb.classList.add('active');
+  }
+
+  // ══════════════════════════════════════════════
+  // RENDER PRODUCTS
+  // ══════════════════════════════════════════════
+  function renderProducts() {
+    const query = document.getElementById('searchInput').value.toLowerCase().trim();
+    const filtered = products.filter(p => {
+      const matchCat = activeFilter === 'All' || p.category === activeFilter;
+      const matchQ   = !query || [p.name, p.brand, p.sku, p.category, p.desc]
+        .some(f => f && f.toLowerCase().includes(query));
+      return matchCat && matchQ;
+    });
+
+    const grid = document.getElementById('productsGrid');
+    document.getElementById('resultsLabel').innerHTML =
+      `Showing <strong>${filtered.length}</strong> of <strong>${products.length}</strong> products`;
+
+    if (!filtered.length) {
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+        <div>🔍</div>
+        <h3>No products found</h3>
+        <p>Try a different search or category filter</p>
+      </div>`;
+      return;
+    }
+
+    grid.innerHTML = filtered.map(p => {
+      const stockClass = p.stock === 0 ? 'stock-out' : p.stock < 50 ? 'stock-low' : 'stock-ok';
+      const stockLabel = p.stock === 0 ? 'Out of Stock' : p.stock < 50 ? `Low: ${p.stock}` : `In Stock: ${p.stock}`;
+      const badge      = p.stock === 0 ? '<span class="product-badge badge-out">Out of Stock</span>'
+                       : p.stock < 50 ? '<span class="product-badge badge-low">Low Stock</span>' : '';
+
+      const buyDisabled = p.stock === 0 ? 'disabled' : '';
+
+      const adminBtns = adminMode ? `
+        <button class="btn-remove" onclick="removeProduct(${p.id})" title="Remove">🗑</button>` : '';
+
+      const sellBtn = `<button class="btn-sell" onclick="openSellModal(${p.id})">📤 Sell</button>`;
+
+      return `<div class="product-card" id="card-${p.id}">
+        <div class="product-thumb">
+          ${badge}
+          ${p.emoji || '📦'}
+        </div>
+        <div class="product-body">
+          <div class="product-cat">${p.category}</div>
+          <div class="product-name">${p.name}</div>
+          <div class="product-sku">${p.brand ? p.brand + ' · ' : ''}SKU: ${p.sku || 'N/A'}</div>
+          <div class="product-desc">${p.desc || ''}</div>
+          <div class="product-meta">
+            <div>
+              <div class="product-price">$${parseFloat(p.price).toFixed(2)}<span class="product-price-unit">${p.unit || ''}</span></div>
+            </div>
+            <span class="product-stock ${stockClass}">${stockLabel}</span>
+          </div>
+          <div class="product-actions">
+            <button class="btn-buy" onclick="addToCart(${p.id})" ${buyDisabled}>🛒 Buy</button>
+            ${sellBtn}
+            ${adminBtns}
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+
+    updateStats();
+  }
+
+  function updateStats() {
+    document.getElementById('statTotal').textContent = products.length;
+    const cats = new Set(products.map(p => p.category)).size;
+    document.getElementById('statCategories').textContent = cats;
+  }
+
+  function buildFilterTabs() {
+    const cats = ['All', ...new Set(products.map(p => p.category).sort())];
+    const tabsEl = document.getElementById('filterTabs');
+    tabsEl.innerHTML = cats.map(c =>
+      `<button class="filter-tab ${c === activeFilter ? 'active' : ''}"
+        onclick="setFilter('${c}', this)">${c}</button>`
+    ).join('');
+  }
+
+  function setFilter(cat, el) {
+    activeFilter = cat;
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    renderProducts();
+  }
+
+  // ══════════════════════════════════════════════
+  // ADMIN MODE
+  // ══════════════════════════════════════════════
+  function toggleAdmin() {
+    adminMode = !adminMode;
+    const toggle = document.getElementById('adminToggle');
+    const label  = document.getElementById('adminLabel');
+    const addBtn = document.getElementById('addProductBtn');
+    toggle.classList.toggle('on', adminMode);
+    label.textContent = adminMode ? 'Admin ON' : 'Admin';
+    addBtn.style.display = adminMode ? 'flex' : 'none';
+    renderProducts();
+    showToast(adminMode ? '🔧 Admin mode enabled' : 'Admin mode off', adminMode ? '' : '');
+  }
+
+  // ══════════════════════════════════════════════
+  // ADD PRODUCT
+  // ══════════════════════════════════════════════
+  function openAddModal() {
+    ['f-name','f-brand','f-sku','f-price','f-unit','f-stock','f-emoji','f-desc'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    document.getElementById('f-cat').value = '';
+    document.getElementById('addOverlay').classList.add('open');
+  }
+
+  function submitAddProduct() {
+    const name  = document.getElementById('f-name').value.trim();
+    const cat   = document.getElementById('f-cat').value;
+    const price = parseFloat(document.getElementById('f-price').value);
+    const stock = parseInt(document.getElementById('f-stock').value);
+
+    if (!name) { showToast('Product name is required', 'red'); return; }
+    if (!cat)  { showToast('Category is required', 'red'); return; }
+    if (isNaN(price) || price < 0) { showToast('Enter a valid price', 'red'); return; }
+    if (isNaN(stock) || stock < 0) { showToast('Enter a valid stock quantity', 'red'); return; }
+
+    const newProduct = {
+      id:       Date.now(),
+      name,
+      brand:    document.getElementById('f-brand').value.trim(),
+      sku:      document.getElementById('f-sku').value.trim() || ('SKU-' + Date.now()),
+      category: cat,
+      price,
+      unit:     document.getElementById('f-unit').value.trim(),
+      stock,
+      emoji:    document.getElementById('f-emoji').value.trim() || '📦',
+      desc:     document.getElementById('f-desc').value.trim(),
+    };
+
+    products.unshift(newProduct);
+    saveProducts();
+    buildFilterTabs();
+    renderProducts();
+    closeModal('addOverlay');
+    showToast(`✅ "${name}" added to catalog`, 'green');
+  }
+
+  // ══════════════════════════════════════════════
+  // REMOVE PRODUCT
+  // ══════════════════════════════════════════════
+  function removeProduct(id) {
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+    if (!confirm(`Remove "${p.name}" from the catalog?`)) return;
+    products = products.filter(x => x.id !== id);
+    saveProducts();
+    buildFilterTabs();
+    renderProducts();
+    showToast(`🗑 "${p.name}" removed`, 'red');
+  }
+
+  // ══════════════════════════════════════════════
+  // CART
+  // ══════════════════════════════════════════════
+  function addToCart(id) {
+    const p = products.find(x => x.id === id);
+    if (!p || p.stock === 0) return;
+
+    const existing = cart.find(c => c.id === id);
+    if (existing) {
+      if (existing.qty >= p.stock) { showToast('No more stock available', 'red'); return; }
+      existing.qty++;
+    } else {
+      cart.push({ id: p.id, name: p.name, price: p.price, emoji: p.emoji || '📦', qty: 1 });
+    }
+
+    saveCart();
+    updateCartCount();
+    showToast(`🛒 ${p.name} added to cart`, 'green');
+  }
+
+  function updateCartCount() {
+    const total = cart.reduce((s, c) => s + c.qty, 0);
+    document.getElementById('cartCount').textContent = total;
+  }
+
+  function renderCart() {
+    const el = document.getElementById('cartItems');
+    if (!cart.length) {
+      el.innerHTML = `<div class="cart-empty"><div>🛒</div><p>Your cart is empty</p></div>`;
+      document.getElementById('cartTotal').textContent = '$0.00';
+      return;
+    }
+
+    el.innerHTML = cart.map(c => `
+      <div class="cart-item">
+        <div class="cart-item-icon">${c.emoji}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${c.name}</div>
+          <div class="cart-item-price">$${(c.price * c.qty).toFixed(2)}</div>
+        </div>
+        <div class="cart-qty">
+          <button class="qty-btn" onclick="changeQty(${c.id}, -1)">−</button>
+          <span class="qty-num">${c.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${c.id}, 1)">+</button>
+        </div>
+      </div>
+    `).join('');
+
+    const total = cart.reduce((s, c) => s + c.price * c.qty, 0);
+    document.getElementById('cartTotal').textContent = '$' + total.toFixed(2);
+  }
+
+  function changeQty(id, delta) {
+    const idx = cart.findIndex(c => c.id === id);
+    if (idx === -1) return;
+    cart[idx].qty += delta;
+    if (cart[idx].qty <= 0) cart.splice(idx, 1);
+    saveCart();
+    updateCartCount();
+    renderCart();
+  }
+
+  function openCart() {
+    renderCart();
+    document.getElementById('cartDrawer').classList.add('open');
+    document.getElementById('cartOverlayBg').classList.add('open');
+  }
+
+  function closeCart() {
+    document.getElementById('cartDrawer').classList.remove('open');
+    document.getElementById('cartOverlayBg').classList.remove('open');
+  }
+
+  function clearCart() {
+    cart = [];
+    saveCart();
+    updateCartCount();
+    renderCart();
+    showToast('Cart cleared');
+  }
+
+  function checkout() {
+    if (!cart.length) { showToast('Add items to your cart first', 'red'); return; }
+    const total = cart.reduce((s,c) => s + c.price * c.qty, 0);
+    // Deduct stock
+    cart.forEach(c => {
+      const p = products.find(x => x.id === c.id);
+      if (p) p.stock = Math.max(0, p.stock - c.qty);
+    });
+    saveProducts();
+    cart = [];
+    saveCart();
+    updateCartCount();
+    closeCart();
+    renderProducts();
+    showToast(`✅ Order placed! Total: $${total.toFixed(2)}`, 'green');
+  }
+
+  // ══════════════════════════════════════════════
+  // SELL
+  // ══════════════════════════════════════════════
+  function openSellModal(id) {
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+    sellTarget = p;
+    document.getElementById('sellModalTitle').textContent = `List "${p.name}" for Sale`;
+    document.getElementById('sellModalDesc').textContent =
+      `Current catalog price: $${p.price.toFixed(2)}${p.unit}. Enter your offer details below.`;
+    document.getElementById('sellQtyInput').value = 1;
+    document.getElementById('sellPriceInput').value = p.price.toFixed(2);
+    document.getElementById('sellNotes').value = '';
+    document.getElementById('sellOverlay').classList.add('open');
+  }
+
+  function submitSell() {
+    const qty   = parseInt(document.getElementById('sellQtyInput').value);
+    const price = parseFloat(document.getElementById('sellPriceInput').value);
+    if (!sellTarget) return;
+    if (isNaN(qty) || qty < 1) { showToast('Enter a valid quantity', 'red'); return; }
+    if (isNaN(price) || price < 0) { showToast('Enter a valid price', 'red'); return; }
+
+    // Add stock to the product (seller is adding inventory)
+    const p = products.find(x => x.id === sellTarget.id);
+    if (p) {
+      p.stock += qty;
+      // Update price if seller offers different price
+      if (Math.abs(price - p.price) > 0.005) {
+        // Keep original price, just notify
+      }
+    }
+    saveProducts();
+    renderProducts();
+    closeModal('sellOverlay');
+    showToast(`📤 Listed ${qty}x ${sellTarget.name} @ $${price.toFixed(2)} — stock updated`, 'green');
+    sellTarget = null;
+  }
+
+  // ══════════════════════════════════════════════
+  // MODALS & UI HELPERS
+  // ══════════════════════════════════════════════
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+  }
+
+  function handleOverlayClick(e, id) {
+    if (e.target === document.getElementById(id)) closeModal(id);
+  }
+
+  let toastTimer;
+  function showToast(msg, type = '') {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.className = 'toast' + (type ? ' ' + type : '');
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+  }
+
+  // ══════════════════════════════════════════════
+  // INIT
+  // ══════════════════════════════════════════════
+  buildFilterTabs();
+  renderProducts();
+  updateCartCount();
+</script>
+</body>
+</html>
