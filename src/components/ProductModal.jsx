@@ -6,7 +6,7 @@ export default function ProductModal({ isOpen, onClose, onProductSaved, productT
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '', category: '',
-    price: '', unit: '', stock: '', emoji: '', desc: ''
+    price: '', unit: '', stock: '', emoji: '', desc: '', image_url: ''
   });
 
   useEffect(() => {
@@ -18,12 +18,13 @@ export default function ProductModal({ isOpen, onClose, onProductSaved, productT
         unit: productToEdit.unit || '',
         stock: productToEdit.quantity !== undefined ? productToEdit.quantity : '',
         emoji: productToEdit.emoji_icon || '',
-        desc: productToEdit.description || ''
+        desc: productToEdit.description || '',
+        image_url: productToEdit.image_url || ''
       });
     } else {
       setFormData({
         name: '', category: '',
-        price: '', unit: '', stock: '', emoji: '', desc: ''
+        price: '', unit: '', stock: '', emoji: '', desc: '', image_url: ''
       });
     }
   }, [productToEdit, isOpen]);
@@ -41,7 +42,8 @@ export default function ProductModal({ isOpen, onClose, onProductSaved, productT
         quantity: parseInt(formData.stock),
         category: formData.category,
         description: formData.desc,
-        emoji_icon: formData.emoji || '📦'
+        emoji_icon: formData.emoji || '📦',
+        image_url: formData.image_url || null
       };
 
       if (productToEdit) {
@@ -121,6 +123,11 @@ export default function ProductModal({ isOpen, onClose, onProductSaved, productT
                 <label>Emoji Icon</label>
                 <input type="text" placeholder="🧻" maxLength="4" value={formData.emoji} onChange={e => setFormData({...formData, emoji: e.target.value})} />
               </div>
+            </div>
+            
+            <div className="form-group full">
+              <label>Image URL</label>
+              <input type="url" placeholder="https://wisdomdental.com/.../img.png" value={formData.image_url} onChange={e => setFormData({...formData, image_url: e.target.value})} />
             </div>
             
             <div className="form-group full">
