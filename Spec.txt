@@ -1,0 +1,102 @@
+Smile Source MVP: Agent Development Specification (Node.js/Netlify Stack)
+1. Project Overview
+Transform the current static HTML/JS prototype into a fully functional MVP using a unified React and Node.js serverless architecture, deployable directly to Netlify. The system will manage wholesale dental inventory, supporting administrative CRUD operations and a professional browsing/contact experience.
+
+2. Tech Stack & Architecture
+Monorepo Structure: Frontend and Serverless Functions in the same repository.
+
+Frontend: React 18+ (via Vite), React Router. Use standard fetch for API calls.
+
+Backend: Netlify Functions (Node.js).
+
+Database & Auth: Supabase (PostgreSQL for inventory, Supabase Auth for the admin portal).
+
+3. Database Schema (Supabase / Postgres)
+The agent must generate the SQL to create the following table based on the provided smilesourceinventory.csv.
+
+Table: products
+
+id (UUID, Primary Key, auto-generated)
+
+name (Text, Not Null) - e.g., "DemeTech DemeSilk 4.0 12PC"
+
+quantity (Integer, Default 0) - Current stock
+
+cost_price (Numeric) - Maps to "Price per Item"
+
+smile_source_price (Numeric) - Maps to "SmileSource Price"
+
+market_price (Numeric, Nullable) - Maps to "Net32/ OnlinePrice"
+
+category (Text) - Derived from frontend UI categories
+
+description (Text, Nullable)
+
+emoji_icon (Text, Nullable) - Retaining the visual style of the prototype
+
+image_url (Text, Nullable) - Target field for future external web-scraping microservice.
+
+is_active (Boolean, Default True)
+
+4. Backend Requirements (Netlify Functions)
+The agent must create a netlify/functions directory containing the following serverless endpoints:
+
+api-products.js: Handles GET (fetch catalog), POST (add product), PUT (update product), and DELETE (remove product).
+
+Security: Read operations are public. Write operations must verify the Supabase JWT in the Authorization header.
+
+api-contact.js: Handles POST submissions from the Wholesale Account Application. Logs the inquiry to a separate inquiries table in Supabase.
+
+api-checkout.js: Handles POST requests containing cart items and user details from checkout. Currently forwards the order directly to sales via email instead of processing a payment online.
+
+5. Frontend Migration Strategy (React)
+The agent must componentize index.html into the following structure:
+
+src/App.jsx: Main router layout containing the <Header /> and <Topbar />.
+
+src/components/
+
+ProductCard.jsx: Reusable UI. Must parse smile_source_price and dynamically calculate the stock status badge (badge-out, badge-low) based on quantity. Must also support rendering an image from image_url if it exists, falling back to emoji_icon if it is null.
+
+CartDrawer.jsx: Manages temporary client-side order states and triggers the checkout process by forwarding the cart to api-checkout.js.
+
+AdminDashboard.jsx: Replaces the current client-side toggle. Renders the secure inventory management form.
+
+src/pages/
+
+Catalog.jsx: The main grid, fetching from /.netlify/functions/api-products.
+
+Wholesale.jsx: The application form.
+
+About.jsx: Static company info.
+
+6. Execution Phases for Agent
+Phase 1: Project Initialization & Supabase Setup
+
+Initialize a Vite + React project.
+
+Install the Netlify CLI (netlify-cli) and Supabase client (@supabase/supabase-js).
+
+Provide the SQL schema to provision the products table in Supabase.
+
+Write a one-off Node.js script to read smilesourceinventory.csv, map the columns to the new schema, and seed the Supabase database. Ensure the script maps the image_url field to null during this initial import.
+
+Phase 2: Serverless API Development
+
+Create the netlify/functions directory.
+
+Implement api-products.js to interface securely with the Supabase database.
+
+Test functions locally using netlify dev.
+
+Phase 3: Frontend Componentization
+
+Port the existing CSS from index.html to global styles.
+
+Build out the React component tree, matching the exact visual fidelity of the existing prototype.
+
+Phase 4: Integration & Admin Auth
+
+Replace the hardcoded DEFAULT_PRODUCTS with dynamic calls to the Netlify functions.
+
+Integrate a simple Supabase email/password login for the Admin view.
