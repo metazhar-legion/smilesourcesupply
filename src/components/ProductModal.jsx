@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../context/AppContext';
+import { supabase } from '../supabase';
 
 export default function ProductModal({ isOpen, onClose, onProductSaved, productToEdit }) {
   const { session, showToast } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [formData, setFormData] = useState({
     name: '', category: '',
     price: '', unit: '', stock: '', emoji: '', desc: '', image_url: ''
@@ -30,6 +32,55 @@ export default function ProductModal({ isOpen, onClose, onProductSaved, productT
   }, [productToEdit, isOpen]);
 
   if (!isOpen) return null;
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    try {
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        try {
+          const base64Data = reader.result.split(',')[1];
+          const fileExt = file.name.split('.').pop();
+          const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+          
+          const res = await fetch('/.netlify/functions/api-upload', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${session?.access_token}`
+            },
+            body: JSON.stringify({
+              imageBase64: base64Data,
+              fileName: fileName,
+              mimeType: file.type
+            })
+          });
+
+          if (!res.ok) {
+            const data = await res.json();
+            throw new Error(data.error || 'Upload failed');
+          }
+
+          const { url } = await res.json();
+          setFormData(prev => ({ ...prev, image_url: url }));
+          showToast("✅ Image uploaded!");
+        } catch (error) {
+          alert("Error uploading image: " + error.message);
+        } finally {
+          setUploadingImage(false);
+          e.target.value = ''; // Reset input
+        }
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+      alert("Error reading file: " + error.message);
+      setUploadingImage(false);
+      e.target.value = '';
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -126,15 +177,21 @@ export default function ProductModal({ isOpen, onClose, onProductSaved, productT
             </div>
             
             <div className="form-group full">
-              <label>Image URL</label>
-              <input type="url" placeholder="https://wisdomdental.com/.../img.png" value={formData.image_url} onChange={e => setFormData({...formData, image_url: e.target.value})} />
+              <label>Image URL or Upload</label>
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                <input type="url" placeholder="https://..." value={formData.image_url} onChange={e => setFormData({...formData, image_url: e.target.value})} style={{ flex: 1 }} />
+                <div style={{ flexShrink: 0, padding: '0.5rem', background: '#f0f0f0', borderRadius: '4px', border: '1px solid #ccc' }}>
+                   <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploadingImage} />
+                </div>
+              </div>
+              {uploadingImage && <small style={{ color: 'var(--primary)', marginTop: '0.2rem', display: 'block' }}>Uploading image...</small>}
             </div>
             
             <div className="form-group full">
               <label>Description</label>
               <textarea placeholder="Brief product description…" value={formData.desc} onChange={e => setFormData({...formData, desc: e.target.value})}></textarea>
             </div>
-            <button type="submit" className="btn-submit" disabled={loading}>
+            <button type="submit" className="btn-submit" disabled={loading || uploadingImage}>
               {loading ? "Saving..." : (productToEdit ? "Save Changes" : "Add to Catalog →")}
             </button>
           </form>
