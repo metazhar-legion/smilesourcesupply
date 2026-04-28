@@ -6,7 +6,7 @@ import { supabase } from '../supabase';
 export const Topbar = () => (
   <div className="topbar">
     <span>🇺🇸 Pennsylvania LLC &nbsp;·&nbsp; Wholesale Dental Supply</span>
-    <span>📞 <a href="#">(215) 555-0100</a> &nbsp;·&nbsp; ✉️ <a href="#">orders@smilesource.com</a></span>
+    <span>📍 801 Upland Ave Suite B, Upland, PA 19013 &nbsp;·&nbsp; 📧 <a href="mailto:smilesourcesupply@gmail.com">smilesourcesupply@gmail.com</a></span>
   </div>
 );
 

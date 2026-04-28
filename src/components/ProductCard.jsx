@@ -4,10 +4,9 @@ import { AppContext } from '../context/AppContext';
 export default function ProductCard({ p, onRemove }) {
   const { isAdmin, addToCart } = useContext(AppContext);
 
-  const stockClass = p.quantity === 0 ? 'stock-out' : p.quantity < 50 ? 'stock-low' : 'stock-ok';
-  const stockLabel = p.quantity === 0 ? 'Out of Stock' : p.quantity < 50 ? `Low: ${p.quantity}` : `In Stock: ${p.quantity}`;
-  const badge = p.quantity === 0 ? <span className="product-badge badge-out">Out of Stock</span>
-              : p.quantity < 50 ? <span className="product-badge badge-low">Low Stock</span> : null;
+  const stockClass = p.quantity === 0 ? 'stock-out' : 'stock-ok';
+  const stockLabel = p.quantity === 0 ? 'Out of Stock' : `In Stock: ${p.quantity}`;
+  const badge = p.quantity === 0 ? <span className="product-badge badge-out">Out of Stock</span> : null;
 
   return (
     <div className="product-card">

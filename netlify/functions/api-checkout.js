@@ -75,8 +75,7 @@ export const handler = async (event, context) => {
         if (resend) {
             const { error: emailError } = await resend.emails.send({
                 from: 'Smile Source Supply <onboarding@resend.dev>', // The default sender allowed on Resend free tier
-                // IMPORTANT: Resend free tier only lets you send emails TO the address you registered Resend with.
-                to: ['metazhar.legion@gmail.com'], // Using your registered test email!
+                to: ['smilesourcesupply@gmail.com'], 
                 subject: `Order Confirmation - Smile Source Supply`,
                 html: htmlBody
             });
