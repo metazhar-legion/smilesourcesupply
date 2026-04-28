@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import ProductCard from '../components/ProductCard';
-import AddProductModal from '../components/AddProductModal';
+import ProductModal from '../components/ProductModal';
 
 export default function Catalog() {
   const { isAdmin, session, showToast } = useContext(AppContext);
@@ -10,6 +10,7 @@ export default function Catalog() {
   const [search, setSearch] = useState('');
   const [activeFilter, setActiveFilter] = useState('All');
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
 
   useEffect(() => {
     fetch('/.netlify/functions/api-products')
@@ -108,15 +109,22 @@ export default function Catalog() {
           </div>
         ) : (
           <div className="products-grid">
-            {filtered.map(p => <ProductCard key={p.id} p={p} onRemove={handleRemove} />)}
+            {filtered.map(p => <ProductCard key={p.id} p={p} onRemove={handleRemove} onEdit={() => setEditingProduct(p)} />)}
           </div>
         )}
       </div>
 
-      <AddProductModal 
-         isOpen={isAddOpen} 
-         onClose={() => setIsAddOpen(false)} 
-         onProductAdded={(newProd) => setProducts([newProd, ...products])} 
+      <ProductModal 
+         isOpen={isAddOpen || !!editingProduct} 
+         onClose={() => { setIsAddOpen(false); setEditingProduct(null); }} 
+         productToEdit={editingProduct}
+         onProductSaved={(savedProd, isEdit) => {
+           if (isEdit) {
+             setProducts(products.map(p => p.id === savedProd.id ? { ...p, ...savedProd } : p));
+           } else {
+             setProducts([savedProd, ...products]);
+           }
+         }} 
       />
     </div>
   );

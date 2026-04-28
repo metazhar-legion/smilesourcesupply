@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 
-export default function ProductCard({ p, onRemove }) {
+export default function ProductCard({ p, onRemove, onEdit }) {
   const { isAdmin, addToCart } = useContext(AppContext);
 
   const stockClass = p.quantity === 0 ? 'stock-out' : 'stock-ok';
@@ -32,7 +32,10 @@ export default function ProductCard({ p, onRemove }) {
         <div className="product-actions">
           <button className="btn-buy" onClick={() => addToCart(p)} disabled={p.quantity === 0}>🛒 Buy</button>
           {isAdmin && (
-            <button className="btn-remove" onClick={() => onRemove(p.id)} title="Remove">🗑</button>
+            <>
+              <button className="btn-edit" onClick={() => onEdit(p)} title="Edit" style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', opacity: 0.7 }}>✏️</button>
+              <button className="btn-remove" onClick={() => onRemove(p.id)} title="Remove">🗑</button>
+            </>
           )}
         </div>
       </div>

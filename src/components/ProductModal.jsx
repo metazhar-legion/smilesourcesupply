@@ -1,13 +1,32 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 
-export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
+export default function ProductModal({ isOpen, onClose, onProductSaved, productToEdit }) {
   const { session, showToast } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '', category: '',
     price: '', unit: '', stock: '', emoji: '', desc: ''
   });
+
+  useEffect(() => {
+    if (productToEdit) {
+      setFormData({
+        name: productToEdit.name || '',
+        category: productToEdit.category || '',
+        price: productToEdit.smile_source_price || '',
+        unit: productToEdit.unit || '',
+        stock: productToEdit.quantity !== undefined ? productToEdit.quantity : '',
+        emoji: productToEdit.emoji_icon || '',
+        desc: productToEdit.description || ''
+      });
+    } else {
+      setFormData({
+        name: '', category: '',
+        price: '', unit: '', stock: '', emoji: '', desc: ''
+      });
+    }
+  }, [productToEdit, isOpen]);
 
   if (!isOpen) return null;
 
@@ -25,8 +44,12 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
         emoji_icon: formData.emoji || '📦'
       };
 
+      if (productToEdit) {
+        payload.id = productToEdit.id;
+      }
+
       const res = await fetch('/.netlify/functions/api-products', {
-        method: 'POST',
+        method: productToEdit ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${session?.access_token}`
@@ -36,11 +59,11 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
       
       const responseBody = await res.json();
       
-      if (!res.ok) throw new Error(responseBody.error || "Failed to add product");
+      if (!res.ok) throw new Error(responseBody.error || `Failed to ${productToEdit ? 'update' : 'add'} product`);
       
-      showToast(`✅ "${formData.name}" added to catalog!`);
-      // Re-trigger product rendering with real appended row
-      onProductAdded({id: responseBody.data?.id || 'temp', ...payload});
+      showToast(`✅ "${formData.name}" ${productToEdit ? 'updated' : 'added'}!`);
+      const updatedProduct = responseBody.data || { id: productToEdit?.id || 'temp', ...payload };
+      onProductSaved(updatedProduct, !!productToEdit);
       onClose();
     } catch (e) {
       alert(e.message);
@@ -52,7 +75,7 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
     <div className="overlay open" onClick={onClose} style={{ zIndex: 650 }}>
       <div className="modal" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>Add New Product</h2>
+          <h2>{productToEdit ? 'Edit Product' : 'Add New Product'}</h2>
           <button className="modal-close" onClick={onClose}>✕</button>
         </div>
         <div className="modal-body">
@@ -105,7 +128,7 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
               <textarea placeholder="Brief product description…" value={formData.desc} onChange={e => setFormData({...formData, desc: e.target.value})}></textarea>
             </div>
             <button type="submit" className="btn-submit" disabled={loading}>
-              {loading ? "Adding..." : "Add to Catalog →"}
+              {loading ? "Saving..." : (productToEdit ? "Save Changes" : "Add to Catalog →")}
             </button>
           </form>
         </div>
