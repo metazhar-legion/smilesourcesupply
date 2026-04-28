@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
-// We hardcode the URL since it's practically public API data, and look for the ANON_KEY in the Vite env
-const supabaseUrl = 'https://jasbsbzuwmmgpanketwr.supabase.co';
+// Load URL and ANON_KEY from the Vite env instead of exposing it
+const supabaseUrl = import.meta.env.VITE_SUPABASE_PROJECT_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 if (!supabaseKey) {
