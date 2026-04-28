@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { Readable } = require('stream');
 const { finished } = require('stream/promises');
+const fuzz = require('fuzzball');
 
 const baseUrl = 'https://wisdomdentalsupply.com/products.json';
 const limit = 250;
@@ -19,27 +20,9 @@ const inventoryRows = fs.readFileSync(inventoryFile, 'utf-8')
   .map(line => line.split(',')[0].trim()) // First column is Item
   .filter(item => item && item.toLowerCase() !== 'item');
 
-// Extract tokens for matching (strip HTML and punctuation)
-function getTokens(str) {
-  if (!str) return new Set();
-  str = str.replace(/<[^>]+>/g, ' '); // remove html tags
-  return new Set(str.toLowerCase().replace(/[^a-z0-9]/g, ' ').split(/\s+/).filter(w => w.length > 0));
-}
-
-function calculateScore(invTokens, prodTokens) {
-  let intersection = 0;
-  for (const token of invTokens) {
-    if (prodTokens.has(token)) intersection++;
-  }
-  if (invTokens.size === 0 || prodTokens.size === 0) return 0;
-  const union = new Set([...invTokens, ...prodTokens]).size;
-  return intersection / union; // Jaccard similarity
-}
-
 const inventoryItems = inventoryRows.map(item => ({
   original: item,
-  safeName: item.replace(/[^a-zA-Z0-9]/g, '_').replace(/_{2,}/g, '_').replace(/_$/, ''),
-  tokens: getTokens(item)
+  safeName: item.replace(/[^a-zA-Z0-9]/g, '_').replace(/_{2,}/g, '_').replace(/_$/, '')
 }));
 
 if (!fs.existsSync(outputDir)) {
@@ -82,8 +65,7 @@ async function scrapeExactly() {
         allProducts.push({
           id: p.id,
           title: p.title,
-          titleTokens: getTokens(p.title),
-          bodyTokens: getTokens(p.body_html || ''),
+          body_html: p.body_html || '',
           image: (p.images && p.images.length > 0) ? p.images[0].src.split('?')[0] : null
         });
       }
@@ -105,19 +87,9 @@ async function scrapeExactly() {
     for (const prod of allProducts) {
       if (!prod.image) continue;
 
-      let score = 0;
-      const cleanInv = Array.from(inv.tokens).join(' ');
-      const cleanTitle = Array.from(prod.titleTokens).join(' ');
-
-      if (cleanInv === cleanTitle) {
-        score = 10.0; // Exact match
-      } else if (cleanTitle.includes(cleanInv) || cleanInv.includes(cleanTitle)) {
-        score = 5.0;  // Substring match
-      } else {
-        const titleScore = calculateScore(inv.tokens, prod.titleTokens);
-        const bodyScore = calculateScore(inv.tokens, prod.bodyTokens);
-        score = titleScore + (bodyScore * 0.1); 
-      }
+      let score = fuzz.token_set_ratio(inv.original, prod.title);
+      const titleBodyScore = fuzz.token_set_ratio(inv.original, prod.title + ' ' + prod.body_html.replace(/<[^>]+>/g, ' '));
+      score = Math.max(score, titleBodyScore * 0.8);
 
       if (score > highestScore) {
         highestScore = score;
@@ -125,8 +97,7 @@ async function scrapeExactly() {
       }
     }
 
-    // NO ARBITRARY FALLBACK: We map exactly or use generic database placeholder later
-    if (bestMatch && highestScore >= 0.35) {
+    if (bestMatch && highestScore >= 60) {
       if (bestMatch.image) {
         const ext = path.extname(bestMatch.image) || '.jpg';
         const filename = `${inv.safeName}${ext}`;
